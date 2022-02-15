@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@netlify/functions": "^0.11.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^9.6.1"
+  }
+}
