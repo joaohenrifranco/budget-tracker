@@ -29,9 +29,10 @@ export function parseTemplate(message: string) {
     let isReadingVariable = false;
     let literalIndex = 0;
     const parsedData = {};
+
     messageWords.forEach((word) => {
         if (word === literals[literalIndex] && isReadingVariable) {
-            console.log(word, literals[literalIndex], isReadingVariable, templateVariables[variableIndex]);
+            console.log("equals and reading", literals[literalIndex], word);
 
             isReadingVariable = false;
             literalIndex++;
@@ -42,7 +43,7 @@ export function parseTemplate(message: string) {
 
 
         if (word === literals[literalIndex] && !isReadingVariable) {
-            console.log(word, literals[literalIndex], isReadingVariable, templateVariables[variableIndex]);
+            console.log("equals and not reading", literals[literalIndex], word);
 
             literalIndex ++;
 
@@ -50,19 +51,22 @@ export function parseTemplate(message: string) {
         }
 
         if (word.endsWith(literals[literalIndex]) && isReadingVariable) {
-            console.log(word, literals[literalIndex], isReadingVariable, templateVariables[variableIndex]);
-
+            console.log("ends with and is reading", literals[literalIndex], word);
 
             isReadingVariable = false;
             literalIndex++;
             variableIndex++;
+            console.log("appending", word);
+
             parsedData[templateVariables[variableIndex]] = parsedData[templateVariables[variableIndex]] || "" + word.replace(literals[literalIndex], "") + " ";
             return;
         }
 
         if (word.endsWith(literals[literalIndex]) && !isReadingVariable) {
-            console.log(word, literals[literalIndex], isReadingVariable, templateVariables[variableIndex], literals[literalIndex]);
-            parsedData[templateVariables[variableIndex]] = parsedData[templateVariables[variableIndex]] || "" + word.replace(literals[literalIndex], "") + " ";
+            console.log("ends with and is not reading", "'"+ literals[literalIndex] + "'",  "'" + word +"'");
+
+
+            parsedData[templateVariables[variableIndex]] = parsedData[templateVariables[variableIndex]] || "" + word.replace(new RegExp(`${literals[literalIndex]}([^${literals[literalIndex]}]*)$`), '$1') + " ";
 
             variableIndex++;
 
@@ -70,16 +74,14 @@ export function parseTemplate(message: string) {
             return;
         }
 
-
-        console.log(word, literals[literalIndex], isReadingVariable);
-
-        console.log("append", templateVariables[variableIndex], word)
+        console.log("appending", word);
         isReadingVariable = true;
         parsedData[templateVariables[variableIndex]] = parsedData[templateVariables[variableIndex]] || "" + word + " ";
     })
 
+    Object.keys(parsedData).map(key => parsedData[key] = parsedData[key].trim())
 
-    return parsedData
+    return parsedData;
 }
 
 export function parseMessage(message: string) {
