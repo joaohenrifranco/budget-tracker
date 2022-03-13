@@ -29,5 +29,21 @@ This repository is structured in order to work with Netlify lambda functions.
     ```
 - Should work without any additional config
 
+### Setup IFTTT
+- Create new applet
+- Setup trigger: If > Android Notification
+- Setup action: Webhooks > Make web request
+    - URL: `https://YOUR-APP-URL/.netlify/functions/notification-to-sheet`
+    - Method: POST
+    - Content-type: application/json
+    - Additional headers: none
+    - Body:
+    ```json
+    {
+        "receivedAt": {{ReceivedAt}},
+        "notificationMessage": {{NotificationMessage}}
+    }
+    ```
+
 ## Customizing
 - Templates are easily extended by altering the `config/notifications.ts` file
