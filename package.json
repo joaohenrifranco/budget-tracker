@@ -1,7 +1,8 @@
 {
   "type": "module",
   "dependencies": {
-    "@netlify/functions": "^1.0.0"
+    "@netlify/functions": "^1.0.0",
+    "googleapis": "^96.0.0"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
