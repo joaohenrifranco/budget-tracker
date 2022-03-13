@@ -20,7 +20,7 @@ export const VARIABLES = {
 
 export const PAYMENT_METHODS: PaymentMethod[] = [
     {
-        label: `Nuconta`,
+        label: `Nubank`,
         appName: `Nubank`,
         templates: [
             {
@@ -34,7 +34,7 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
         ]
     },
     {
-        label: `Nubank`,
+        label: `Nuconta`,
         appName: `Nubank`,
         templates: [
             {
