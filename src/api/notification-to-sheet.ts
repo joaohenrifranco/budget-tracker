@@ -37,7 +37,7 @@ const handler: Handler = async (event, context) => {
         const notificationData = ProcessNotification.execute(notificationMessage);
         console.log("Notification data:", notificationData);
 
-        const normalizedData = NormalizeData.execute(notificationMessage);
+        const normalizedData = NormalizeData.execute({...notificationData, receivedAt});
         console.log("Normalized data:", normalizedData);
         
         const response = await AddToSheets.execute(normalizedData);

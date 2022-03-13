@@ -1,4 +1,4 @@
-function parseIftttDate(receivedAtString: string) {
+function parseReceivedAt(receivedAtString: string) {
     const time = receivedAtString.split(" ");
     const months = {
         "Jan": "01", "January": "01",
@@ -37,14 +37,29 @@ function parseIftttDate(receivedAtString: string) {
     return day + "-" + month + "-" + year + " " + hour + ":" + minute + ":00";
 }
 
-function execute(dataDict: { [key: string]: string }) {
-    const data = { ...dataDict };
+const methodTypeLabels = {
+    'debit': 'Débito',
+    'credit': 'Crédito',
+}
 
-    if (data.hasOwnProperty("receivedAt")) {
-        data.moment = parseIftttDate(data.receivedAt);
-    }
+export type NormalizeData = {
+    moment: string,
+    description: string,
+    methodName: string,
+    methodType: string,
+    amount: string,
+}
 
-    return data;
+function execute(inputDataDict: { [key: string]: string }) {
+    const parsedMoment = parseReceivedAt(inputDataDict.receivedAt);
+
+    return {
+        moment: parsedMoment,
+        description: inputDataDict.description,
+        methodName: inputDataDict.methodName,
+        methodType: methodTypeLabels[inputDataDict.methodType as keyof typeof methodTypeLabels],
+        amount: inputDataDict.amount,
+    };
 }
 
 export const NormalizeData = {
