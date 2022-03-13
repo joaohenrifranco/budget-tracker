@@ -1,4 +1,4 @@
-import { ReverseParser } from '../src/utils/ReverseParser';
+import { ReverseParser } from '../src/utils/reverse-parser';
 
 describe('ReverseParser', () => {
     it('should reverse message from template correctly', () => {

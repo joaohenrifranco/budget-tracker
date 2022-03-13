@@ -3,13 +3,13 @@ class ReverseParser {
     template: string;
     templateMatches: RegExpExecArray[];
     templateVariableNames: string[];
-    startSeparator: string;
-    endSeparator: string;
+    // startSeparator: string;
+    // endSeparator: string;
 
-    constructor(template: string, startSeparator: string, endSeparator?: string) {
+    constructor(template: string) {
         this.template = template;
-        this.startSeparator = startSeparator;
-        this.endSeparator = endSeparator || startSeparator;
+        // this.startSeparator = startSeparator;
+        // this.endSeparator = endSeparator || startSeparator;
         this.templateMatches = this.getTemplateMatches();
         this.templateVariableNames = this.getTemplateVariableNames();
     }
@@ -30,8 +30,8 @@ class ReverseParser {
     private getTemplateVariableNames(): string[] {
         return this.templateMatches
             .map(templateMatch => templateMatch[0]
-            .replace(this.startSeparator, "")
-            .replace(this.endSeparator, ""));
+            .replace("[[", "")
+            .replace("]]", ""));
     }
 
 

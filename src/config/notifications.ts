@@ -1,9 +1,9 @@
-type Template = {
+export type Template = {
     message: string,
     type: "refund" | "expense" | "revenue"
 }
 
-type PaymentMethod = {
+export type PaymentMethod = {
     label: string,
     appName: string,
     templates: Template[],
