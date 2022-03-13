@@ -34,7 +34,9 @@ const handler: Handler = async (event, context) => {
             };
         }
 
-        const notificationData = ProcessNotification.execute(notificationMessage);
+        const lastLine = notificationMessage.split('\n').pop();
+
+        const notificationData = ProcessNotification.execute(lastLine);
         console.log("Notification data:", notificationData);
 
         const normalizedData = NormalizeData.execute({...notificationData, receivedAt});
