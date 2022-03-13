@@ -23,7 +23,8 @@ function execute(message: string) {
     
     return {
         methodName: template.method.name,
-        methodTyope: template.method.type,
+        methodType: template.method.type,
+        transactionType: template.type,
         ...parsedMessage,
     }
 }

@@ -2,6 +2,7 @@ import { google } from 'googleapis';
 import { gapiCredentials } from '../config/gapi-credentials';
 
 async function createSheetsInstance(credentials: typeof gapiCredentials) {
+    console.log(credentials);
     const auth = new google.auth.GoogleAuth({
         credentials,
         scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -35,9 +36,10 @@ async function execute(dataDict: { [key: string]: string }) {
 
     try {
         const response = (await sheetsInstance.spreadsheets.values.append(request)).data;
-        console.log(JSON.stringify(response, null, 2));
+        return response;
     } catch (err) {
         console.error(err);
+        return err as Error;
     }
 
 }

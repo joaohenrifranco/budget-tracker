@@ -2,7 +2,7 @@ export const gapiCredentials = {
   "type": "service_account",
   "project_id": process.env.GAPI_PROJECT_ID,
   "private_key_id": process.env.GAPI_PRIVATE_KEY_ID,
-  "private_key": process.env.GAPI_PRIVATE_KEY,
+  "private_key": process.env.GAPI_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   "client_email": process.env.GAPI_CLIENT_EMAIL,
   "client_id": process.env.GAPI_CLIENT_ID,
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",

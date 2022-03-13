@@ -3,6 +3,7 @@ dotenv.config();
 import { Handler } from "@netlify/functions";
 import { ProcessNotification } from "../services/process-notification";
 import { AddToSheets } from "../services/add-to-sheets";
+import { NormalizeData } from '../services/normalize-data';
 
 const handler: Handler = async (event, context) => {
     try {
@@ -24,18 +25,32 @@ const handler: Handler = async (event, context) => {
             receivedAt
         } = JSON.parse(body);
 
+        if (!notificationMessage) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    error: "Missing notificationMessage",
+                }),
+            };
+        }
+
         const notificationData = ProcessNotification.execute(notificationMessage);
-        const response = await AddToSheets.execute(notificationData);
+        console.log("Notification data:", notificationData);
+
+        const normalizedData = NormalizeData.execute(notificationMessage);
+        console.log("Normalized data:", normalizedData);
+        
+        const response = await AddToSheets.execute(normalizedData);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: `Hello World` }),
+            body: JSON.stringify(response),
         };
     }
     catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: error }),
+            body: JSON.stringify({ message: (error as Error).message }),
         };
     }
 };

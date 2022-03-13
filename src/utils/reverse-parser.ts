@@ -44,7 +44,6 @@ class ReverseParser {
 
         const messageVariables = messageLiterals.reduce((acc: string, curr: string) => {
             acc = acc.replace(curr, AUX_SEPARATOR);
-            console.log(acc, curr);
             return acc;
         }, message).split(AUX_SEPARATOR).filter(Boolean);;
 
