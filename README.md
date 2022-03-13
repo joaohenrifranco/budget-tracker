@@ -1,7 +1,9 @@
 # Budget Tracker
-- Webhook that takes android notifications captured by IFTTT, parses its text and inserts rows in a Google Sheet.
-- It currently parses some notifications from the following brazilian banks: Nubank, Caixa and Itaucard.
-- This repository is structured in order to work with Netlify lambda functions.
+Webhook that takes android notifications captured by IFTTT, parses its text and appends in a Google Sheet with the data.
+
+It currently parses some notifications from the following brazilian banks: Nubank, Caixa and Itaucard.
+
+This repository is structured in order to work with Netlify lambda functions.
 
 ## How to deploy
 
@@ -22,7 +24,9 @@
 - Fork this repository
 - Select it on Netlify web interface
 - You may use netlify CLI to automatically upload your env vars from `.env`:
-    `netlify env:import .env`
+    ```sh
+    $ netlify env:import .env
+    ```
 - Should work without any additional config
 
 ## Customizing
