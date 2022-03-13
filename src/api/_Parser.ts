@@ -1,28 +1,62 @@
+const AUX_SEPARATOR ="|";
 class ReverseParser {
     template: string;
-    regex: RegExp;
-
-    getRegex(startSeparator: string, endSeparator?: string): RegExp {
-        return new RegExp(`(?<=is ${startSeparator})(.*?)(?=\s*${endSeparator || startSeparator})`, 'g');
-    }
+    templateMatches: RegExpExecArray[];
+    templateVariableNames: string[];
+    startSeparator: string;
+    endSeparator: string;
 
     constructor(template: string, startSeparator: string, endSeparator?: string) {
         this.template = template;
-        this.regex = this.getRegex(startSeparator, endSeparator)
+        this.startSeparator = startSeparator;
+        this.endSeparator = endSeparator || startSeparator;
+        this.templateMatches = this.getTemplateMatches();
+        this.templateVariableNames = this.getTemplateVariableNames();
     }
 
-    getExtractedValues(message: string) {
-        const messageMatches = this.regex.exec(message);
-        const templateMatches = this.regex.exec(this.template);
+    private getTemplateMatches(): RegExpExecArray[] {
+        const regex = new RegExp(/\[\[(.*?)\]\]/, "g");
+        const matches = [];
+        let match;
+        while (match !== null) {
+            match = regex.exec(this.template);
+            if (match) {
+                matches.push(match);
+            }
+        }
+        return matches;
+    }
 
-        console.log(messageMatches, templateMatches);
+    private getTemplateVariableNames(): string[] {
+        return this.templateMatches
+            .map(templateMatch => templateMatch[0]
+            .replace(this.startSeparator, "")
+            .replace(this.endSeparator, ""));
+    }
 
-        if (!messageMatches || !templateMatches) {
+
+    parse(message: string) {
+        const messageLiterals = this.templateMatches.reduce((acc: string, templateMatch: RegExpExecArray) => {
+            acc = acc.replace(templateMatch[0], AUX_SEPARATOR);
+            return acc;
+        }, this.template).split(AUX_SEPARATOR).filter(Boolean);
+
+
+        const messageVariables = messageLiterals.reduce((acc: string, curr: string) => {
+            acc = acc.replace(curr, AUX_SEPARATOR);
+            console.log(acc, curr);
+            return acc;
+        }, message).split(AUX_SEPARATOR).filter(Boolean);;
+
+        
+        if (!messageVariables) {
             throw new Error('Invalid message or template');
         }
 
-        return messageMatches.reduce((acc: {[key: string]: string}, msgMatch: string) => {
-            const templateMatch = templateMatches.shift();
+        const variableNameQueue = [...this.templateVariableNames];
+
+        return messageVariables.reduce((acc: {[key: string]: string}, msgMatch: string) => {
+            const templateMatch = variableNameQueue.shift();
             if (!templateMatch || !msgMatch) return acc;
             acc[templateMatch] = msgMatch;
             return acc;
