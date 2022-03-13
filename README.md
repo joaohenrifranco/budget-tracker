@@ -13,8 +13,8 @@
 - Fill `.env` file using the downloaded JSON file
 
 ### Setup Google Sheet
-- Create new sheet or choose existing
-- Share sheet with your service account created above email
+- Create new sheet or choose existing on google drive
+- Share sheet via web interface with your service account email (created above)
 - Fill spreadsheet id in `.env` file (found in the url: docs.google.com/spreadsheets/d/SPREADSHEET_ID)
 - Fill the spreadsheet range in the A1 format (something like `Sheet1!A1:G1`)
 
