@@ -1,4 +1,4 @@
-export type Template = {
+type Template = {
     message: string,
     type: "refund" | "expense" | "revenue"
 }
@@ -9,13 +9,13 @@ type PaymentMethod = {
     templates: Template[],
 }
 
-export const VARIABLES = {
-    amount: `amount`,
-    description: `description`,
-    cardNumber: `cardNumber`,
-    date: `date`,
-    time: `time`,
-    remainingCredit: `remainingCredit`,
+const VARS = {
+    AMOUNT: `AMOUNT`,
+    DESCRIPTION: `DESCRIPTION`,
+    CARD_NUMBER: `CARD_NUMBER`,
+    DATE: `DATE`,
+    TIME: `TIME`,
+    REMAINING_CREDIT: `REMAINING_CREDIT`,
 }
 
 export const PAYMENT_METHODS: PaymentMethod[] = [
@@ -24,11 +24,11 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
         appName: `Nubank`,
         templates: [
             {
-                message: `Compra de R$ [[${VARIABLES.amount}]] APROVADA em [[${VARIABLES.description}]]`,
+                message: `Compra de R$ [[${VARS.AMOUNT}]] APROVADA em [[${VARS.DESCRIPTION}]]`,
                 type: 'expense'
             },
             {
-                message: `A compra em [[${VARIABLES.description}]] no valor de R$ [[${VARIABLES.amount}]] foi estornada.`,
+                message: `A compra em [[${VARS.DESCRIPTION}]] no valor de R$ [[${VARS.AMOUNT}]] foi estornada.`,
                 type: 'refund'
             }
         ]
@@ -39,7 +39,7 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
         templates: [
             {
                 type: 'revenue',
-                message: `Você recebeu uma transferência de R$ [[${VARIABLES.amount}]] de [[${VARIABLES.description}]].`
+                message: `Você recebeu uma transferência de R$ [[${VARS.AMOUNT}]] de [[${VARS.DESCRIPTION}]].`
             }
         ],
     },
@@ -49,12 +49,12 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
         templates: [
             {
                 type: 'expense',
-                message: `Compra aprovada no seu PAO ACUCAR VS PLAT final [[${VARIABLES.cardNumber}]] - [[${VARIABLES.description}]] valor RS [[${VARIABLES.amount}]] em [[${VARIABLES.date}]] as [[${VARIABLES.time}]]. Limite Disponivel de [[${VARIABLES.remainingCredit}]].`,
+                message: `Compra aprovada no seu PAO ACUCAR VS PLAT final [[${VARS.CARD_NUMBER}]] - [[${VARS.DESCRIPTION}]] valor RS [[${VARS.AMOUNT}]] em [[${VARS.DATE}]] as [[${VARS.TIME}]]. Limite Disponivel de [[${VARS.REMAINING_CREDIT}]].`,
 
             },
             {
                 type: 'refund',
-                message: `Confirmamos o estorno da compra no seu PAO ACUCAR VS PLAT final [[${VARIABLES.cardNumber}]] - [[${VARIABLES.description}]] valor RS [[${VARIABLES.amount}]] em [[${VARIABLES.date}]] as [[${VARIABLES.time}]].`,
+                message: `Confirmamos o estorno da compra no seu PAO ACUCAR VS PLAT final [[${VARS.CARD_NUMBER}]] - [[${VARS.DESCRIPTION}]] valor RS [[${VARS.AMOUNT}]] em [[${VARS.DATE}]] as [[${VARS.TIME}]].`,
 
             }
         ],
@@ -65,11 +65,11 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
         templates: [
             {
                 type: 'expense',
-                message: `CAIXA: Compra aprovada [[${VARIABLES.description}]] R$ [[${VARIABLES.amount}]] [[${VARIABLES.date}]] as [[${VARIABLES.time}]], VISA final [[${VARIABLES.cardNumber}]]. Caso nao reconheca a transacao, envie BL1759 p/cancelar cartao`,
+                message: `CAIXA: Compra aprovada [[${VARS.DESCRIPTION}]] R$ [[${VARS.AMOUNT}]] [[${VARS.DATE}]] as [[${VARS.TIME}]], VISA final [[${VARS.CARD_NUMBER}]]. Caso nao reconheca a transacao, envie BL1759 p/cancelar cartao`,
             },
             {
                 type: 'refund',
-                message: `CAIXA: Compra CANCELADA no [[${VARIABLES.description}]] R$ [[${VARIABLES.amount}]], [[${VARIABLES.date}]] as [[${VARIABLES.time}]] VISA final [[${VARIABLES.cardNumber}]]. Duvidas: 4004-0104 OU 0800-104-0104.`
+                message: `CAIXA: Compra CANCELADA no [[${VARS.DESCRIPTION}]] R$ [[${VARS.AMOUNT}]], [[${VARS.DATE}]] as [[${VARS.TIME}]] VISA final [[${VARS.CARD_NUMBER}]]. Duvidas: 4004-0104 OU 0800-104-0104.`
             }
         ]
 
