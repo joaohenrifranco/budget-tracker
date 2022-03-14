@@ -10,6 +10,7 @@ const handler: Handler = async (event, context) => {
         const { body } = event;
 
         if (!body) {
+            console.log("No body found in event");
             return {
                 statusCode: 400,
                 body: JSON.stringify({
@@ -25,7 +26,8 @@ const handler: Handler = async (event, context) => {
             receivedAt
         } = JSON.parse(body);
 
-        if (!notificationMessage) {
+        if (!notificationMessage || !receivedAt) {
+            console.log("No notificationMessage or receivedAt found in body");
             return {
                 statusCode: 400,
                 body: JSON.stringify({
