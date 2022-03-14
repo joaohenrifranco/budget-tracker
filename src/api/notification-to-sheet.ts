@@ -32,7 +32,7 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
             };
         }
 
-        const lastLine = notificationMessage.split('\n').pop();
+        const lastLine = notificationMessage.replace(/\\n/g, '\n').split('\n').pop();
 
         const notificationData = ProcessNotification.execute(lastLine);
 
