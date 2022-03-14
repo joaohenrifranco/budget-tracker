@@ -43,7 +43,7 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
 
         const normalizedData = NormalizeData.execute({ ...notificationData, receivedAt });
 
-        const response: any = await SheetsAPI.execute(normalizedData);
+        const response: any = await SheetsAPI.insertRow(normalizedData);
 
         if (!response || (response.code && response.code !== 200)) {
             return {

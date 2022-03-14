@@ -1,7 +1,5 @@
 import { google } from 'googleapis';
 import { gapiCredentials } from '../config/gapi-credentials';
-import { NormalizeData } from './normalize-data';
-
 async function createSheetsInstance(credentials: typeof gapiCredentials) {
     const auth = new google.auth.GoogleAuth({
         credentials,
@@ -11,7 +9,7 @@ async function createSheetsInstance(credentials: typeof gapiCredentials) {
     return google.sheets({ version: 'v4', auth: authClient });
 }
 
-async function execute(rowData: string[]) {
+async function insertRow(rowData: string[]) {
     const sheetsInstance = await createSheetsInstance(gapiCredentials);
 
     const request = {
@@ -29,4 +27,4 @@ async function execute(rowData: string[]) {
     return (await sheetsInstance.spreadsheets.values.append(request)).data;
 }
 
-export const SheetsAPI = { execute };
+export const SheetsAPI = { insertRow };
