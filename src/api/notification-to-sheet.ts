@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import { Handler } from "@netlify/functions";
 import { ProcessNotification } from "../services/process-notification";
 import { SheetsAPI } from "../services/sheets-api";
