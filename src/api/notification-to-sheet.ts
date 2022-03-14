@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { Handler } from "@netlify/functions";
 import { ProcessNotification } from "../services/process-notification";
-import { AddToSheets } from "../services/add-to-sheets";
+import { SheetsAPI } from "../services/sheets-api";
 import { NormalizeData } from '../services/normalize-data';
 
 async function process(body: string | null): Promise<{ statusCode: number, body: string }> {
@@ -45,7 +45,7 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
 
         const normalizedData = NormalizeData.execute({ ...notificationData, receivedAt });
 
-        const response: any = await AddToSheets.execute(normalizedData);
+        const response: any = await SheetsAPI.execute(normalizedData);
 
         if (!response || (response.code && response.code !== 200)) {
             return {
@@ -71,9 +71,6 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
 const handler: Handler = async (event, context) => {
     const { body } = event;
     const response = await process(body);
-
-    console.log(body);
-    console.log(response);
 
     return response;
 };

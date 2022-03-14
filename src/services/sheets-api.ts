@@ -11,7 +11,7 @@ async function createSheetsInstance(credentials: typeof gapiCredentials) {
     return google.sheets({ version: 'v4', auth: authClient });
 }
 
-async function execute(dataDict: NormalizeData) {
+async function execute(rowData: string[]) {
     const sheetsInstance = await createSheetsInstance(gapiCredentials);
 
     const request = {
@@ -21,17 +21,7 @@ async function execute(dataDict: NormalizeData) {
         insertDataOption: 'INSERT_ROWS',
         resource: {
             majorDimension: "ROWS",
-            values: [
-                [
-                    dataDict.moment,
-                    dataDict.methodName,
-                    dataDict.methodType,
-                    "FILL",
-                    "FILL",
-                    dataDict.description,
-                    dataDict.amount
-                ]
-            ]
+            values: [ rowData ]
         },
     };
 
@@ -39,4 +29,4 @@ async function execute(dataDict: NormalizeData) {
     return (await sheetsInstance.spreadsheets.values.append(request)).data;
 }
 
-export const AddToSheets = { execute };
+export const SheetsAPI = { execute };

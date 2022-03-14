@@ -42,24 +42,20 @@ const methodTypeLabels = {
     'credit': 'Crédito',
 }
 
-export type NormalizeData = {
-    moment: string,
-    description: string,
-    methodName: string,
-    methodType: string,
-    amount: string,
-}
-
-function execute(inputDataDict: { [key: string]: string }) {
+function execute(inputDataDict: { [key: string]: string }): string[] {
     const parsedMoment = parseReceivedAt(inputDataDict.receivedAt);
 
-    return {
+    const data = {
         moment: parsedMoment,
-        description: inputDataDict.description,
         methodName: inputDataDict.methodName,
         methodType: methodTypeLabels[inputDataDict.methodType as keyof typeof methodTypeLabels],
-        amount: inputDataDict.amount,
+        budget: "FILL",
+        category: "FILL",
+        description: inputDataDict.description,
+        amount: inputDataDict.transactionType !== 'expense' ? inputDataDict.amount : '-' + inputDataDict.amount,
     };
+
+    return Object.keys(data).map(key => data[key]);
 }
 
 export const NormalizeData = {
