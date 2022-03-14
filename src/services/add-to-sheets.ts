@@ -16,7 +16,7 @@ async function execute(dataDict: NormalizeData) {
 
     const request = {
         spreadsheetId: process.env.SPREADSHEET_ID,
-        range: 'Página2!A1:G1',
+        range: process.env.SPREADSHEET_RANGE,
         valueInputOption: 'USER_ENTERED',
         insertDataOption: 'INSERT_ROWS',
         resource: {
