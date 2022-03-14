@@ -39,6 +39,13 @@ const handler: Handler = async (event, context) => {
         const notificationData = ProcessNotification.execute(lastLine);
         console.log("Notification data:", notificationData);
 
+        if (!notificationData) {
+            return {
+                statusCode: 200,
+                body: "No template matched",
+            };
+        }
+
         const normalizedData = NormalizeData.execute({...notificationData, receivedAt});
         console.log("Normalized data:", normalizedData);
         

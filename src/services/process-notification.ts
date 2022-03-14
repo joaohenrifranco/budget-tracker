@@ -13,11 +13,20 @@ function matchTemplate(message: string) {
         console.warn("Match is not perfect. Please adjust your config file.", message, match);
     }
 
+    if (match.score < match.expectedScore/2) {
+        return null;
+    }
+
     return match.template;
 }
 
 function execute(message: string) {
     const template = matchTemplate(message);
+
+    if (!template) {
+        return null;
+    }
+
     const parser = new ReverseParser(template.message);
     const parsedMessage = parser.parse(message);
     
