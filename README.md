@@ -40,8 +40,8 @@ This repository is structured in order to work with Netlify lambda functions.
     - Body:
     ```json
     {
-        "receivedAt": {{ReceivedAt}},
-        "notificationMessage": {{NotificationMessage}}
+        "receivedAt": "{{ReceivedAt}}",
+        "notificationMessage": "{{NotificationMessage}}"
     }
     ```
 
