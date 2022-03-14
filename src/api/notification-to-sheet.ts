@@ -47,9 +47,9 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
 
         const response: any = await AddToSheets.execute(normalizedData);
 
-        if (!response || response.code !== 200) {
+        if (!response || (response.code && response.code !== 200)) {
             return {
-                statusCode: response.code,
+                statusCode: response.code || 500,
                 body: response.errors && response.errors.join(', '),
             };
         }
@@ -70,9 +70,12 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
 
 const handler: Handler = async (event, context) => {
     const { body } = event;
-    console.log(body);
+    const response = await process(body);
 
-    return process(body);
+    console.log(body);
+    console.log(response);
+
+    return response;
 };
 
 export { handler };
