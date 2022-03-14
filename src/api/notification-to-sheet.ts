@@ -3,7 +3,7 @@ import { ProcessNotification } from "../services/process-notification";
 import { SheetsAPI } from "../services/sheets-api";
 import { NormalizeData } from '../services/normalize-data';
 
-async function process(body: string | null): Promise<{ statusCode: number, body: string }> {
+async function run(body: string | null): Promise<{ statusCode: number, body: string }> {
     try {
         if (!body) {
             return {
@@ -68,7 +68,7 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
 
 const handler: Handler = async (event, context) => {
     const { body } = event;
-    const response = await process(body);
+    const response = await run(body);
 
     return response;
 };
