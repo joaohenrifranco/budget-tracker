@@ -21,7 +21,7 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
             appName,
             notificationMessage,
             receivedAt
-        } = JSON.parse(body.replace(/\\n/g, '\n'));
+        } = JSON.parse(body);
 
         if (!notificationMessage || !receivedAt) {
             return {
@@ -32,7 +32,7 @@ async function process(body: string | null): Promise<{ statusCode: number, body:
             };
         }
 
-        const lastLine = notificationMessage.split('\n').pop();
+        const lastLine = notificationMessage.split('\\n').pop();
 
         const notificationData = ProcessNotification.execute(lastLine);
 
