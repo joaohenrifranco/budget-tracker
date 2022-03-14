@@ -47,3 +47,6 @@ This repository is structured in order to work with Netlify lambda functions.
 
 ## Customizing
 - Templates are easily extended by altering the `config/notifications.ts` file
+
+## Todo
+- Basic authentication via secret
