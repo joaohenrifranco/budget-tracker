@@ -5,16 +5,13 @@ import { ProcessNotification } from "../services/process-notification";
 import { AddToSheets } from "../services/add-to-sheets";
 import { NormalizeData } from '../services/normalize-data';
 
-const handler: Handler = async (event, context) => {
+async function process(body: string | null): Promise<{ statusCode: number, body: string }> {
     try {
-        const { body } = event;
-
         if (!body) {
-            console.log("No body found in event");
             return {
                 statusCode: 400,
                 body: JSON.stringify({
-                    error: "Missing body",
+                    error: "Missing body.",
                 }),
             };
         }
@@ -27,11 +24,10 @@ const handler: Handler = async (event, context) => {
         } = JSON.parse(body);
 
         if (!notificationMessage || !receivedAt) {
-            console.log("No notificationMessage or receivedAt found in body");
             return {
                 statusCode: 400,
                 body: JSON.stringify({
-                    error: "Missing notificationMessage",
+                    error: "Missing params.",
                 }),
             };
         }
@@ -39,19 +35,24 @@ const handler: Handler = async (event, context) => {
         const lastLine = notificationMessage.split('\n').pop();
 
         const notificationData = ProcessNotification.execute(lastLine);
-        console.log("Notification data:", notificationData);
 
         if (!notificationData) {
             return {
                 statusCode: 200,
-                body: "No template matched",
+                body: "No template matched.",
             };
         }
 
-        const normalizedData = NormalizeData.execute({...notificationData, receivedAt});
-        console.log("Normalized data:", normalizedData);
-        
-        const response = await AddToSheets.execute(normalizedData);
+        const normalizedData = NormalizeData.execute({ ...notificationData, receivedAt });
+
+        const response: any = await AddToSheets.execute(normalizedData);
+
+        if (!response || response.code !== 200) {
+            return {
+                statusCode: response.code,
+                body: response.errors && response.errors.join(', '),
+            };
+        }
 
         return {
             statusCode: 200,
@@ -64,6 +65,14 @@ const handler: Handler = async (event, context) => {
             body: JSON.stringify({ message: (error as Error).message }),
         };
     }
+}
+
+
+const handler: Handler = async (event, context) => {
+    const { body } = event;
+    console.log(body);
+
+    return process(body);
 };
 
 export { handler };

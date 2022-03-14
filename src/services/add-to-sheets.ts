@@ -35,14 +35,9 @@ async function execute(dataDict: NormalizeData) {
         },
     };
 
-    try {
-        const response = (await sheetsInstance.spreadsheets.values.append(request)).data;
-        return response;
-    } catch (err) {
-        console.error(err);
-        return err as Error;
-    }
 
+    const response = (await sheetsInstance.spreadsheets.values.append(request)).data;
+    return response;
 }
 
 export const AddToSheets = { execute };

@@ -10,7 +10,6 @@ function matchTemplate(message: string) {
     }, { template: Templates[0], score: 0, expectedScore: 0 })
 
     if (match.score < match.expectedScore/2) {
-        console.log("Discarded.", message, match);
         return null;
     }
 
