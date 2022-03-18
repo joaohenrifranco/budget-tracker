@@ -9,12 +9,8 @@ function matchTemplate(message: string) {
         return score < currentMatch.score ? currentMatch : { score, template, expectedScore };
     }, { template: Templates[0], score: 0, expectedScore: 0 })
 
-    if (match.score < match.expectedScore/2) {
+    if (match.score < match.expectedScore) {
         return null;
-    }
-
-    if (match.score !== match.expectedScore) {
-        console.warn("Match is not perfect. Please adjust your config file.", message, match);
     }
 
     return match.template;
