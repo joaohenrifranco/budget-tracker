@@ -3,13 +3,9 @@ class ReverseParser {
     template: string;
     templateMatches: RegExpExecArray[];
     templateVariableNames: string[];
-    // startSeparator: string;
-    // endSeparator: string;
 
     constructor(template: string) {
         this.template = template;
-        // this.startSeparator = startSeparator;
-        // this.endSeparator = endSeparator || startSeparator;
         this.templateMatches = this.getTemplateMatches();
         this.templateVariableNames = this.getTemplateVariableNames();
     }
@@ -41,13 +37,24 @@ class ReverseParser {
             return acc;
         }, this.template).split(AUX_SEPARATOR).filter(Boolean);
 
+        const messageVariables = messageLiterals.reduce((acc: {original: string, splitted: string}, curr: string) => {
+            const replaced = acc.original.replace(curr, AUX_SEPARATOR);
+            const parts = replaced.split(AUX_SEPARATOR).filter(Boolean);
 
-        const messageVariables = messageLiterals.reduce((acc: string, curr: string) => {
-            acc = acc.replace(curr, AUX_SEPARATOR);
-            return acc;
-        }, message).split(AUX_SEPARATOR).filter(Boolean);;
+            if (parts.length > 1) {
+                return {
+                    original: parts[1],
+                    splitted: acc.splitted + parts[0] + AUX_SEPARATOR
+                }
+            }
+            return {
+                original: replaced,
+                splitted: acc.splitted
+        }}, {
+            original: message,
+            splitted: "",
+        }).splitted.split(AUX_SEPARATOR).filter(Boolean);
 
-        
         if (!messageVariables) {
             throw new Error('Invalid message or template');
         }
