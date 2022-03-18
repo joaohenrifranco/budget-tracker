@@ -34,7 +34,7 @@ function parseReceivedAt(receivedAtString: string) {
     }
 
     const minute = timestring[1].substring(0, timestring[1].length - 2);
-    return day + "-" + month + "-" + year + " " + hour + ":" + minute + ":00";
+    return day + "/" + month + "/" + year + " " + hour + ":" + minute + ":00";
 }
 
 const methodTypeLabels = {
