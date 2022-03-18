@@ -41,7 +41,11 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
             };
         }
 
+        console.log(`Parsed data: ${JSON.stringify(notificationData)}`);
+
         const normalizedData = NormalizeData.execute({ ...notificationData, receivedAt });
+
+        console.log(`Inserting row: ${normalizedData}`);
 
         const response: any = await SheetsAPI.insertRow(normalizedData);
 
