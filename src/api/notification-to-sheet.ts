@@ -14,6 +14,8 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
             };
         }
 
+        console.log("Received:", body); 
+
         const {
             notificationTitle,
             appName,
