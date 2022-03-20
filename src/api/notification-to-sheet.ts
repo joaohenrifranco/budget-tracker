@@ -14,8 +14,6 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
             };
         }
 
-        console.log("Received:", body); 
-
         const {
             notificationTitle,
             appName,
@@ -74,7 +72,10 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
 
 const handler: Handler = async (event, context) => {
     const { body } = event;
+    console.log("Received:", body); 
+
     const response = await run(body);
+    console.log("Returning:", response); 
 
     return response;
 };
