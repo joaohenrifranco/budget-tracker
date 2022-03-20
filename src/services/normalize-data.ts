@@ -1,4 +1,4 @@
-function parseReceivedAt(receivedAtString: string) {
+function parseIFTTTDate(receivedAtString: string) {
     const time = receivedAtString.split(" ");
     const months = {
         "Jan": "01", "January": "01",
@@ -43,7 +43,12 @@ const methodTypeLabels = {
 }
 
 function execute(inputDataDict: { [key: string]: string }): string[] {
-    const parsedMoment = parseReceivedAt(inputDataDict.receivedAt);
+    let parsedMoment;
+    try {
+        parsedMoment = parseIFTTTDate(inputDataDict.receivedAt);
+    } catch {
+        parsedMoment = inputDataDict.receivedAt.replace("-", "/").replace(".", ":");
+    }
 
     const data = {
         moment: parsedMoment,
