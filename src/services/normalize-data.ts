@@ -47,7 +47,7 @@ function execute(inputDataDict: { [key: string]: string }): string[] {
     try {
         parsedMoment = parseIFTTTDate(inputDataDict.receivedAt);
     } catch {
-        parsedMoment = inputDataDict.receivedAt.replace("-", "/").replace(".", ":");
+        parsedMoment = inputDataDict.receivedAt.replace("-", "/").replace("-", "/").replace(".", ":");
     }
 
     const data = {
