@@ -1,21 +1,22 @@
-const VARS = {
+export const TEMPLATE_VARS = {
     AMOUNT: `amount`,
     DESCRIPTION: `description`,
     CARD_NUMBER: `cardNumber`,
     DATE: `date`,
     TIME: `time`,
     REMAINING_CREDIT: `remainingCredit`,
-}
+    HOLDER_NAME: `holderName`,
+} as const;
 
 type Template = {
     message: string,
     method: PaymentMethod,
-    type: "refund" | "expense" | "revenue"
+    type: TransactionType,
 }
 
 type PaymentMethod = {
     name: string,
-    type: 'debit' | 'credit',
+    type: PaymentMethodType,
 }
 
 const PaymentMethods: { [key: string]: PaymentMethod } = {
@@ -37,42 +38,43 @@ const PaymentMethods: { [key: string]: PaymentMethod } = {
     }
 }
 
+const V = TEMPLATE_VARS
 export const Templates: Template[] = [
     {
         method: PaymentMethods.nubank,
-        message: `Compra de R$ [[${VARS.AMOUNT}]] APROVADA em [[${VARS.DESCRIPTION}]]`,
+        message: `Compra de R$ [[${V.AMOUNT}]] APROVADA em [[${V.DESCRIPTION}]]`,
         type: 'expense'
     },
     {
         method: PaymentMethods.nubank,
-        message: `A compra em [[${VARS.DESCRIPTION}]] no valor de R$ [[${VARS.AMOUNT}]] foi estornada.`,
+        message: `A compra em [[${V.DESCRIPTION}]] no valor de R$ [[${V.AMOUNT}]] foi estornada.`,
         type: 'refund'
     },
     {
         method: PaymentMethods.nuconta,
-        message: `Você recebeu uma transferência de R$ [[${VARS.AMOUNT}]] de [[${VARS.DESCRIPTION}]].`,
+        message: `Você recebeu uma transferência de R$ [[${V.AMOUNT}]] de [[${V.DESCRIPTION}]].`,
         type: 'revenue',
     },
     {
         method: PaymentMethods.pda,
         type: 'expense',
-        message: `Compra aprovada no seu PAO ACUCAR VS PLAT final [[${VARS.CARD_NUMBER}]] - [[${VARS.DESCRIPTION}]] valor RS [[${VARS.AMOUNT}]] em [[${VARS.DATE}]] as [[${VARS.TIME}]]. Limite Disponivel de [[${VARS.REMAINING_CREDIT}]].`,
+        message: `Compra aprovada no seu PAO ACUCAR VS PLAT p/ [[${V.HOLDER_NAME}]] - [[${V.DESCRIPTION}]] valor RS [[${V.AMOUNT}]] em [[${V.DATE}]] as [[${V.TIME}]].`,
 
     },
     {
         method: PaymentMethods.pda,
         type: 'refund',
-        message: `Confirmamos o estorno da compra no seu PAO ACUCAR VS PLAT final [[${VARS.CARD_NUMBER}]] - [[${VARS.DESCRIPTION}]] valor RS [[${VARS.AMOUNT}]] em [[${VARS.DATE}]] as [[${VARS.TIME}]].`,
+        message: `Confirmamos o estorno da compra no seu PAO ACUCAR VS PLAT p/ [[${V.HOLDER_NAME}]] - [[${V.DESCRIPTION}]] valor RS [[${V.AMOUNT}]] em [[${V.DATE}]] as [[${V.TIME}]].`,
 
     },
     {
         method: PaymentMethods.caixa,
         type: 'expense',
-        message: `CAIXA: Compra aprovada [[${VARS.DESCRIPTION}]] R$ [[${VARS.AMOUNT}]] [[${VARS.DATE}]] as [[${VARS.TIME}]], VISA final [[${VARS.CARD_NUMBER}]]. Caso nao reconheca a transacao, envie BL1759 p/cancelar cartao`,
+        message: `CAIXA: Compra aprovada [[${V.DESCRIPTION}]] R$ [[${V.AMOUNT}]] [[${V.DATE}]] as [[${V.TIME}]], VISA final [[${V.CARD_NUMBER}]]. Caso nao reconheca a transacao, envie BL1759 p/cancelar cartao`,
     },
     {
         method: PaymentMethods.caixa,
         type: 'refund',
-        message: `CAIXA: Compra CANCELADA no [[${VARS.DESCRIPTION}]] R$ [[${VARS.AMOUNT}]], [[${VARS.DATE}]] as [[${VARS.TIME}]] VISA final [[${VARS.CARD_NUMBER}]]. Duvidas: 4004-0104 OU 0800-104-0104.`
+        message: `CAIXA: Compra CANCELADA no [[${V.DESCRIPTION}]] R$ [[${V.AMOUNT}]], [[${V.DATE}]] as [[${V.TIME}]] VISA final [[${V.CARD_NUMBER}]]. Duvidas: 4004-0104 OU 0800-104-0104.`
     }
 ];

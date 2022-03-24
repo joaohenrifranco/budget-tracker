@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { ProcessNotification } from "../services/process-notification";
 import { SheetsAPI } from "../services/sheets-api";
-import { NormalizeData } from '../services/normalize-data';
+import { BuildRow } from '../services/build-row';
 
 async function run(body: string | null): Promise<{ statusCode: number, body: string }> {
     try {
@@ -43,7 +43,7 @@ async function run(body: string | null): Promise<{ statusCode: number, body: str
 
         console.log(`Parsed data: ${JSON.stringify(notificationData)}`);
 
-        const normalizedData = NormalizeData.execute({ ...notificationData, receivedAt });
+        const normalizedData = BuildRow.execute({ ...notificationData, receivedAt });
 
         console.log(`Inserting row: ${normalizedData}`);
 
