@@ -6,10 +6,12 @@ function matchTemplate(message: string) {
         const literals = template.message.replace(/\[\[.*?\]\]/g, "").split(" ").filter(Boolean);
         const expectedScore = literals.length;
         const score = literals.filter((word: string) => message.includes(word)).length;
-        return score < currentMatch.score ? currentMatch : { score, template, expectedScore };
-    }, { template: Templates[0], score: 0, expectedScore: 0 })
+        const error = Math.abs(expectedScore - score)
+        return error > currentMatch.error ? currentMatch : { template, error };
+    }, { template: Templates[0], error: Infinity })
 
-    if (match.score < match.expectedScore) {
+    // Completely arbitrary threshold
+    if (match.error > 2) {
         return null;
     }
 
