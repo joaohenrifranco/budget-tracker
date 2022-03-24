@@ -58,14 +58,13 @@ export const Templates: Template[] = [
     {
         method: PaymentMethods.pda,
         type: 'expense',
-        message: `Compra aprovada no seu PAO ACUCAR VS PLAT p/ [[${V.HOLDER_NAME}]] - [[${V.DESCRIPTION}]] valor RS [[${V.AMOUNT}]] em [[${V.DATE}]] as [[${V.TIME}]].`,
+        message: `Compra aprovada no PAO ACUCAR VS PLAT p/ [[${V.HOLDER_NAME}]] - [[${V.DESCRIPTION}]] valor RS [[${V.AMOUNT}]] em [[${V.DATE}]] as [[${V.TIME}]].`,
 
     },
     {
         method: PaymentMethods.pda,
         type: 'refund',
         message: `Confirmamos o estorno da compra no seu PAO ACUCAR VS PLAT p/ [[${V.HOLDER_NAME}]] - [[${V.DESCRIPTION}]] valor RS [[${V.AMOUNT}]] em [[${V.DATE}]] as [[${V.TIME}]].`,
-
     },
     {
         method: PaymentMethods.caixa,
