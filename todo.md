@@ -19,3 +19,4 @@ var u = $("#url").text(),
 $("#results").text(zFromTemplate(u, t))
 ```
 https://codepen.io/grinn/pen/ExKQXq
+https://stackoverflow.com/questions/23111062/javascript-regex-string-template-extract-variable
